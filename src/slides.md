@@ -31,26 +31,28 @@ eslint src/
 
 `.eslintrc` configuration file supports following extensions 
 
--`js` 
+- `js` 
 - `yml`
 - `json`
 
 
 There are three ways to configure ESlint
   
-- configuration file (configuration file need to be in included in project or path has to be pass as an argument)
+- configuration file (configuration file need to be included in project or path has to be pass as an argument)
 - configuration comments
 - directly in package.json in a `eslintConfig` field
 
 
 ESLint consists of the:
 
-- Environments
+- Environments - what is the target environment for the application (node/browser etc.)
 - Globals - allowed to configure global variables, by using `globals` property in configuration file
 - Parser - allow to specify the JavaScript options
-- Rules
+- Rules - allow to add/remove/override rules
 - Plugins - npm package that can add many extensions
 - Settings - shared settings for all rules
+- Processor - processors can extract JavaScript code from other types of files
+- code ignoring (`"ignorePatterns"`, `.eslintignore` property)
 
 
 ## Priority
@@ -62,26 +64,28 @@ ESLint consists of the:
 4. top root .eslintrc  file / package.json configuration
 
 <aside class="notes">
-If there are .eslintrc  and package.json files on the same level, package.json will be ignored.
-If one of .eslintrc file has "root": true property, the searching will be stop ot this file 
-All rules from founded .eslintrc are merged
+<p>If there are .eslintrc  and package.json files on the same level, package.json will be ignored.</p>
+<p>If one of .eslintrc file has "root": true property, the searching will be stop ot this file 
+All rules from founded .eslintrc are merged</p>
 </aside>
 
 
 ## Extending Configuration Files
 
+
 - configuration file can be extended by using `extends` key word
 - value of `extends` could be
   - path to the config file
   - name of sharable config
-  - eslint:recommended - most common rules
-  - eslint:all - all rules in the currently installed ESLint version
+  - `eslint:recommended` - most common rules
+  - `eslint:all` - all rules in the currently installed `ESLint` version
   - array of above, where later configuration extends the preceding one
-- The eslint-config- prefix can be omitted from the configuration name.
-- The rules from preceding can be added or override
+- The `eslint-config-` prefix can be omitted from the configuration name.
+- The rules from preceding files can be added or override
 
 
 ## Sharable configuration
+
 
 - it is an npm package that exports configuration object
 - when it is installed we can includes package by adding it in `extends` property
@@ -138,9 +142,7 @@ Configuration can be overwritten based on glob pattern, by using  `overrides` ke
 }
 ```
 
-
 ---
-
 
 ## Environments
 
@@ -169,6 +171,8 @@ Configuration can be overwritten based on glob pattern, by using  `overrides` ke
 
 ```JavaScript
 {
+    // default is espree, we need to choose right parser when we want to use typescript for example
+    "parser": "esprima"
     "env": { "es6": true } // we have to set globals separately
     "parserOptions": {
         "ecmaVersion": "6",
@@ -180,3 +184,65 @@ Configuration can be overwritten based on glob pattern, by using  `overrides` ke
     ...
 }
 ```
+
+## Rules
+
+
+All rules can be set on one of three levels:
+  
+  - turn of (`"off"` or `0` in configuration file)
+  - turn on as warning `"warn"` or `1` in configuration file
+  - turn on as error `"error"` or `2` in configuration file
+
+
+ - Rules can be modified using configuration comments or configuration file by `"rules"` property.
+ - When we want to configure additional option of the rule than we pass an array. The first argument is a flag and second additional options
+ - rules from plugins has to have plugin prefix 
+
+
+```JavaScript
+/* eslint react/no-set-state: "off", quotes: ["error", "double"] */
+```
+
+```JavaScript
+{
+    "plugins": [
+        "react"
+    ],
+    "rules": {
+       "react/no-set-state": "off",
+       "quotes": ["error", "double"]
+    }
+}
+```
+
+
+## `.eslintignore`
+
+- allowed to ignore specific files or directories using glob patterns
+- need to be in root directory
+- paths `.eslintignore` is relative to current directory
+- `node_modules/`, files and directoring starting with `.` are ignored by default
+
+
+```
+# .eslintignore
+/src/*.spec.js
+```
+
+## `ignorePatterns`
+
+Instead `.eslintignore` we can also use `"ignorePatterns"` property in `eslintConfig` file
+
+
+```JavaScript
+{
+    "ignorePatterns": ["/src/*.spec.js"],
+    ...
+}
+```
+
+
+---
+
+## CLI
