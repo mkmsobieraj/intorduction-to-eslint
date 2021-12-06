@@ -1,0 +1,11 @@
+:root {
+  --r-main-font-size: 34px;
+}
+
+code {
+  color: orange;
+}
+
+table,th,td {
+  color: white;
+}

@@ -29,6 +29,17 @@ eslint src/
 ## Configuration
 
 
+There are three ways to configure ESlint
+  
+- configuration file (configuration file need to be included in project or path has to be pass as an argument)
+- configuration comments
+- directly in `package.json` in a `eslintConfig` field
+
+<aside class="notes">
+We will focus mainly on the configuration file.
+</aside>
+
+
 `.eslintrc` configuration file supports following extensions 
 
 - `js` 
@@ -36,20 +47,13 @@ eslint src/
 - `json`
 
 
-There are three ways to configure ESlint
-  
-- configuration file (configuration file need to be included in project or path has to be pass as an argument)
-- configuration comments
-- directly in package.json in a `eslintConfig` field
+ESLint's configuration consists of the:
 
-
-ESLint consists of the:
-
-- Environments - what is the target environment for the application (node/browser etc.)
+- Environments - target environment for the application (`node`/`browser` etc.)
 - Globals - allowed to configure global variables, by using `globals` property in configuration file
-- Parser - allow to specify the JavaScript options
+- Parser - allow to specify the JavaScript options and parser
 - Rules - allow to add/remove/override rules
-- Plugins - npm package that can add many extensions
+- Plugins - npm packages that can add many extensions
 - Settings - shared settings for all rules
 - Processor - processors can extract JavaScript code from other types of files
 - code ignoring (`"ignorePatterns"`, `.eslintignore` property)
@@ -59,14 +63,14 @@ ESLint consists of the:
 
 
 1. comments
-2. .eslintrc file in the same directory
+2. `.eslintrc` file in the same directory
 3. ...
-4. top root .eslintrc  file / package.json configuration
+4. top root `.eslintrc` file / `package.json` configuration
 
 <aside class="notes">
 <p>If there are .eslintrc  and package.json files on the same level, package.json will be ignored.</p>
-<p>If one of .eslintrc file has "root": true property, the searching will be stop ot this file 
-All rules from founded .eslintrc are merged</p>
+<p>If one of .eslintrc file has "root": true property, the searching will be stop on this file.</p>
+<p>All rules from founded .eslintrc are merged.</p>
 </aside>
 
 
@@ -79,16 +83,9 @@ All rules from founded .eslintrc are merged</p>
   - name of sharable config
   - `eslint:recommended` - most common rules
   - `eslint:all` - all rules in the currently installed `ESLint` version
-  - array of above, where later configuration extends the preceding one
-- The `eslint-config-` prefix can be omitted from the configuration name.
+  - *array of above*, where later configuration extends the preceding one
+- The `eslint-config-` prefix can be omitted from the configuration name
 - The rules from preceding files can be added or override
-
-
-## Sharable configuration
-
-
-- it is an npm package that exports configuration object
-- when it is installed we can includes package by adding it in `extends` property
 
 
 ```JavaScript
@@ -99,6 +96,13 @@ All rules from founded .eslintrc are merged</p>
     "extends": "example"
 }
 ```
+
+
+## Sharable Configuration
+
+
+- it is a npm package that exports configuration object
+- when it is installed, we can include package by adding it in `extends` property
 
 
 ## Plugins
@@ -149,7 +153,7 @@ Configuration can be overwritten based on glob pattern, by using  `overrides` ke
 
 - provides global variables
 - there is possible to use many environments
-- cna be set via comment, cli, configuration file
+- can be set via comment, CLI, configuration file
 - it is possible to use environments from plugins 
 
 
@@ -166,8 +170,9 @@ Configuration can be overwritten based on glob pattern, by using  `overrides` ke
 ## Parser
 
 
-- By default ESLint supports ES5 syntax
-- It is set by using `parserOptions` property
+- by default ESLint supports `ES5` syntax
+- we can set desired properties using `parserOptions` filed
+
 
 ```JavaScript
 {
@@ -185,18 +190,19 @@ Configuration can be overwritten based on glob pattern, by using  `overrides` ke
 }
 ```
 
+
 ## Rules
 
 
 All rules can be set on one of three levels:
   
   - turn of (`"off"` or `0` in configuration file)
-  - turn on as warning `"warn"` or `1` in configuration file
-  - turn on as error `"error"` or `2` in configuration file
+  - turn on as warning (`"warn"` or `1` in configuration file)
+  - turn on as error (`"error"` or `2` in configuration file)
 
 
- - Rules can be modified using configuration comments or configuration file by `"rules"` property.
- - When we want to configure additional option of the rule than we pass an array. The first argument is a flag and second additional options
+ - rules can be modified using configuration comments or configuration file by `"rules"` property
+ - when we want to configure additional option of the rule than we pass an array. The first argument is a flag and second additional options
  - rules from plugins has to have plugin prefix 
 
 
@@ -219,10 +225,11 @@ All rules can be set on one of three levels:
 
 ## `.eslintignore`
 
-- allowed to ignore specific files or directories using glob patterns
+
+- allow ignoring specific files or directories using glob patterns
 - need to be in root directory
 - paths `.eslintignore` is relative to current directory
-- `node_modules/`, files and directoring starting with `.` are ignored by default
+- `node_modules/`, files and directories/files starting with `.` are ignored by default
 
 
 ```
@@ -230,9 +237,11 @@ All rules can be set on one of three levels:
 /src/*.spec.js
 ```
 
+
 ## `ignorePatterns`
 
-Instead `.eslintignore` we can also use `"ignorePatterns"` property in `eslintConfig` file
+
+Instead of `.eslintignore` we can also use `"ignorePatterns"` property in `.eslintrc` file
 
 
 ```JavaScript
@@ -242,7 +251,15 @@ Instead `.eslintignore` we can also use `"ignorePatterns"` property in `eslintCo
 }
 ```
 
-
 ---
 
 ## CLI
+
+
+command          |description                              |example
+-----------------|-----------------------------------------|-----------------------------------------
+-c, --config     |path to the configuration file           |eslint -c ~/config.json src/
+-fix             |tres to fixes ESLint errors automatically|eslint --fix src/
+--quiet          |disables warnings                        |eslint --quiet src/
+-o, --output-file|writes report to file                    |eslint -o ./logs/ESLint-report.html src/ 
+-f, --format     |output format of eslint report           |eslint -f html src/
