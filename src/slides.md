@@ -258,8 +258,8 @@ Instead of `.eslintignore` we can also use `"ignorePatterns"` property in `.esli
 
 command          |description                              |example
 -----------------|-----------------------------------------|-----------------------------------------
--c, --config     |path to the configuration file           |eslint -c ~/config.json src/
--fix             |tres to fixes ESLint errors automatically|eslint --fix src/
---quiet          |disables warnings                        |eslint --quiet src/
--o, --output-file|writes report to file                    |eslint -o ./logs/ESLint-report.html src/ 
--f, --format     |output format of eslint report           |eslint -f html src/
+-c, --config     |path to the configuration file           |npx eslint -c ~/config.json src/
+-fix             |tres to fixes ESLint errors automatically|npx eslint --fix src/
+--quiet          |disables warnings                        |npx eslint --quiet src/
+-o, --output-file|writes report to file                    |npx eslint -o ./logs/ESLint-report.html src/ 
+-f, --format     |output format of eslint report           |npx eslint -f html src/
